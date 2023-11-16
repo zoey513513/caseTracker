@@ -1,0 +1,6 @@
+import requests
+website = 'https://www.casestatusext.com/cases'
+result = requests.get(website)
+result.text
+
+soup = BeautifulSoup
