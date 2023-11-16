@@ -1,6 +1,29 @@
+from bs4 import BeautifulSoup
 import requests
-website = 'https://www.casestatusext.com/cases'
+root = 'https://www.casestatusext.com'
+website = f'{root}/approvals/I-485/IOE-LB'
 result = requests.get(website)
-result.text
+content = result.text
+soup = BeautifulSoup(content, "lxml")
 
-soup = BeautifulSoup
+box = soup.find('tbody',class_='ant-table-tbody')
+links = []
+for link in box.find_all('a', href=True):
+    links.append(link['href'])
+
+with open('infos.txt', 'w') as file:
+     file.write('')
+for link in links:
+    subWebsite = f'{root}{link}'
+    subResult = requests.get(subWebsite)
+    subContent = subResult.text
+    subSoup = BeautifulSoup(subContent,'lxml')
+    subBoxes = subSoup.find_all('div',class_=['ant-timeline-item-label','ant-timeline-item-content'])
+
+    with open('infos.txt', 'a') as file:
+        file.write(link + '\n ')
+        for i, subBox in enumerate(subBoxes):
+            file.write(subBox.get_text(strip=True, separator=' '))
+            if i % 2 == 1:
+                file.write('\n ')  # Add a comma after every pair
+    file.close()
