@@ -5,8 +5,6 @@ website = f'{root}/approvals/I-485/IOE-LB'
 result = requests.get(website)
 content = result.text
 soup = BeautifulSoup(content, "lxml")
-pagination = soup.find('ul', class_='ant-pagination ant-table-pagination ant-table-pagination-right css-1ij74fp')
-pagination.find_all('li')
 box = soup.find('tbody',class_='ant-table-tbody')
 links = []
 for link in box.find_all('a', href=True):
