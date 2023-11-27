@@ -1,19 +1,61 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By  # Import the By class
-
-# driver=webdriver.Chrome(executable_path=chrome_driver_path,options=options)
+import time
 root = 'https://www.casestatusext.com'
 website = f'{root}/approvals/I-485/IOE-LB'
 
 options = webdriver.ChromeOptions()
+options.add_argument('--headless')
 options.add_experimental_option("detach", True)
+
 driver = webdriver.Chrome(options=options)
+subdriver = webdriver.Chrome(options=options)
 driver.get(website)
 
-button = driver.find_element(By.XPATH,  '//li[@title="Next Page"]')
-print(button)
-# button.click()
-# button.click()
-# df = pd.DataFrame({'case':case, 'timeline':timeline})
-# df.to_csv('casetracker.csv', index=False)
-# driver.quit()
+with open('allcases.txt', 'w') as file_all:
+     file_all.write('')
+
+with open('before2023.txt', 'w') as file_before:
+     file_before.write('')
+
+def writetofile(FileName, casenumber, timelines):
+    with open(FileName, 'a') as file:
+        file.write(casenumber + '\n')
+        for timeline in timelines:
+            time = timeline.find_element(By.XPATH,'.//div[contains(@class,"ant-timeline-item-label")]').text
+            state = timeline.find_element(By.XPATH,'.//div[contains(@class,"ant-timeline-item-content")]').text
+            file.write(time + state + '\n')
+
+currentpage = 1
+pagination = driver.find_elements(By.XPATH, './/li[contains(@class,"ant-pagination-item")]')
+
+while currentpage <= len(pagination):
+    cases = driver.find_element(By.XPATH, '//tbody[@class = "ant-table-tbody"]').find_elements(By.XPATH,".//tr")
+
+    for row in range(1,len(cases)):
+        cells = cases[row].find_elements(By.CLASS_NAME,"ant-table-cell")
+        casenumber = cells[0].text
+        subdriver.get(f"{root}/cases/{casenumber}")
+        status = subdriver.find_element(By.XPATH,'//ul[contains(@class,"ant-timeline")]')
+        timelines = status.find_elements(By.XPATH,'.//li')
+        if timelines[0].find_element(By.XPATH,'.//div[contains(@class,"ant-timeline-item-label")]').text < '2023-01-01':
+            writetofile('before2023.txt', casenumber, timelines)
+        writetofile('allcases.txt', casenumber, timelines)
+
+    try:
+        nextButton = driver.find_element(By.XPATH,  '//li[@title="Next Page"]')
+        time.sleep(1)
+        nextButton.click()
+        time.sleep(2)
+
+    except:
+        pass
+    currentpage += 1
+
+file_all.close()
+file_before.close()
+driver.quit
+subdriver.quit
+
+
+
