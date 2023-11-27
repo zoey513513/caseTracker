@@ -1,0 +1,53 @@
+/cases/IOE0922372763
+ 2023-09-15Case Was Received and A Receipt Notice Was Sent
+ 2023-09-25Request for Initial Evidence Was Sent
+ 2023-10-16Response To USCIS' Request For Evidence Was Received
+ 2023-10-27Biometrics Appointment Was Scheduled
+ 2023-11-16Case Is Being Actively Reviewed By USCIS
+ 2023-11-27Case Approved
+ /cases/IOE0919718530
+ 2023-03-10Case Was Received and A Receipt Notice Was Sent
+ 2023-03-17Biometrics Appointment Was Scheduled
+ 2023-03-27Request for Initial Evidence Was Sent
+ 2023-04-04Case Is Being Actively Reviewed By USCIS
+ 2023-05-01Response To USCIS' Request For Evidence Was Received
+ 2023-11-27Case Approved
+ /cases/IOE0917703863
+ 2022-10-20Case Is Being Actively Reviewed By USCIS
+ 2022-11-04Request for Initial Evidence Was Sent
+ 2022-11-11Response To USCIS' Request For Evidence Was Received
+ 2023-11-27Case Approved
+ /cases/IOE0921458172
+ 2023-07-20Case Was Received and A Receipt Notice Was Sent
+ 2023-08-04Biometrics Appointment Was Scheduled
+ 2023-08-25Case Is Being Actively Reviewed By USCIS
+ 2023-11-27Case Approved
+ /cases/IOE0918677794
+ 2022-12-16Case Was Received and A Receipt Notice Was Sent
+ 2022-12-24Biometrics Appointment Was Scheduled
+ 2023-01-10Case Is Being Actively Reviewed By USCIS
+ 2023-1wsdx78 Is Being Actively Reviewed By USCIS
+ 2023-11-27Case Approved
+ /cases/IOE0921753102
+ 2023-08-07Case Was Received and A Receipt Notice Was Sent
+ 2023-08-24Request for Initial Evidence Was Sent
+ 2023-09-01Biometrics Appointment Was Scheduled
+ 2023-09-19Response To USCIS' Request For Evidence Was Received
+ 2023-09-22Case Is Being Actively Reviewed By USCIS
+ 2023-11-27Case Approved
+ /cases/IOE0921457370
+ 2023-07-20Case Was Received and A Receipt Notice Was Sent
+ 2023-07-28Biometrics Appointment Was Scheduled
+ 2023-08-15Request for Initial Evidence Was Sent
+ 2023-08-17Case Is Being Actively Reviewed By USCIS
+ 2023-08-22Response To USCIS' Request For Evidence Was Received
+ 2023-11-27Case Approved
+ /cases/IOE0919007453
+ 2023-01-17Case Was Received and A Receipt Notice Was Sent
+ 2023-01-24Case Is Being Actively Reviewed By USCIS
+ 2023-11-27Case Approved
+ /cases/IOE0912383651
+ 2021-11-09Case Is Being Actively Reviewed By USCIS
+ 2023-11-05Response To USCIS' Request For Evidence Was Received
+ 2023-11-26Case Is Being Actively Reviewed By USCIS
+ 2023-11-27Case Approved
