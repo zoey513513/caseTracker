@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By  # Import the By class
 
+# driver=webdriver.Chrome(executable_path=chrome_driver_path,options=options)
 root = 'https://www.casestatusext.com'
 website = f'{root}/approvals/I-485/IOE-LB'
 
@@ -8,10 +9,11 @@ options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
 driver = webdriver.Chrome(options=options)
 driver.get(website)
+
 button = driver.find_element(By.XPATH,  '//li[@title="Next Page"]')
-
-button.click()
-button.click()
-button.click()
-
+print(button)
+# button.click()
+# button.click()
+# df = pd.DataFrame({'case':case, 'timeline':timeline})
+# df.to_csv('casetracker.csv', index=False)
 # driver.quit()
