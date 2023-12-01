@@ -1,0 +1,30 @@
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By  # Import the By class
+from selenium.webdriver.chrome.options import Options
+import pandas as pd
+import time
+import os
+
+web = "https://twitter.com/"
+
+options = Options()
+# options.add_argument('--headless')
+options.add_argument('window-size=1920x1080')
+options.add_experimental_option("detach", True)
+driver = webdriver.Chrome(options=options)
+driver.get(web)
+login = WebDriverWait(driver,15).until(EC.presence_of_element_located((By.XPATH,'//a[@href="/login"]')))
+login.click()
+username = WebDriverWait(driver,15).until(EC.presence_of_element_located((By.XPATH,'//input')))
+username.send_keys(os.environ.get("email"))
+next_button = driver.find_element(By.XPATH,'//div[@role="button"][2]')
+next_button.click()
+password = WebDriverWait(driver,5).until(EC.presence_of_element_located((By.XPATH,'//input[@type="password"]')))
+password.send_keys(os.environ.get("password"))
+login_button = driver.find_element(By.XPATH,'//div[@role="button"][@data-testid="LoginForm_Login_Button"]')
+login_button.click()
+
+time.sleep(5)
+driver.quit()

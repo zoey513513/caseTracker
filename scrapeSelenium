@@ -1,11 +1,13 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By  # Import the By class
 import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 root = 'https://www.casestatusext.com'
 website = f'{root}/approvals/I-485/IOE-LB'
 
 options = webdriver.ChromeOptions()
-options.add_argument('--headless')
+# options.add_argument('--headless')
 options.add_experimental_option("detach", True)
 
 driver = webdriver.Chrome(options=options)
@@ -30,7 +32,9 @@ currentpage = 1
 pagination = driver.find_elements(By.XPATH, './/li[contains(@class,"ant-pagination-item")]')
 
 while currentpage <= len(pagination):
-    cases = driver.find_element(By.XPATH, '//tbody[@class = "ant-table-tbody"]').find_elements(By.XPATH,".//tr")
+    time.sleep(3)
+    container = WebDriverWait(driver,5).until(EC.presence_of_element_located((By.XPATH,'//tbody[@class = "ant-table-tbody"]')))
+    cases = WebDriverWait(container,5).until(EC.presence_of_all_elements_located((By.XPATH,".//tr")))
 
     for row in range(1,len(cases)):
         cells = cases[row].find_elements(By.CLASS_NAME,"ant-table-cell")
@@ -44,9 +48,7 @@ while currentpage <= len(pagination):
 
     try:
         nextButton = driver.find_element(By.XPATH,  '//li[@title="Next Page"]')
-        time.sleep(1)
         nextButton.click()
-        time.sleep(2)
 
     except:
         pass
@@ -56,6 +58,3 @@ file_all.close()
 file_before.close()
 driver.quit
 subdriver.quit
-
-
-
