@@ -1,3 +1,5 @@
+# 1. Selenium has to use a lot of wait ... not sure if Scrappy will help with this
+# 2. Selenium is the best tool to do infinite scrolling
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -33,15 +35,24 @@ pythonweb = "https://twitter.com/home"
 driver.get(pythonweb)
 user_date = []
 text_data = []
-time.sleep(5)
-tweets = WebDriverWait(driver,25).until(EC.presence_of_all_elements_located((By.XPATH,'//div[@data-testid="cellInnerDiv"]')))
+time.sleep(8)
+tweets = WebDriverWait(driver,25).until(EC.presence_of_all_elements_located((By.XPATH,'//article[@role="article"]')))
+
+def gettweet(element):
+    try:
+        user =  element.find_element(By.XPATH,'.//span[contains(text(),"@")]').text
+        text = element.find_element(By.XPATH,'.//div[@lang]').text
+        tweet_data = [user,text]
+    except:
+        tweet_data = ['user','text']
+    return tweet_data
+
 for tweet in tweets:
-    user =  driver.find_element(By.XPATH,'.//span[contains(text(),"@")]').text
-    user_date.append(user)
-    text = driver.find_element(By.XPATH,'.//div[@lang]').text
-    text_data.append(text)
+    tweet_list = gettweet(tweet)
+    user_date.append(tweet_list[0])
+    text_data.append(" ".join(tweet_list[1].split()))
+
 df_tweets = pd.DataFrame({'user':user_date, 'text': text_data})
 df_tweets.to_csv('tweets.csv', index=False)
-print(df_tweets)
-time.sleep(100)
+# time.sleep(100)
 driver.quit()
