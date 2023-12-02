@@ -1,0 +1,79 @@
+# 1. Selenium has to use a lot of wait ... not sure if Scrappy will help with this
+# 2. Selenium is the best tool to do infinite scrolling
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By  # Import the By class
+from selenium.webdriver.chrome.options import Options
+import pandas as pd
+import time
+import os
+
+web = "https://twitter.com/"
+options = Options()
+# options.add_argument('--headless')
+options.add_argument('window-size=1920x1080')
+options.add_experimental_option("detach", True)
+driver = webdriver.Chrome(options=options)
+driver.get(web)
+driver.maximize_window()
+login = WebDriverWait(driver,10).until(EC.presence_of_element_located((By.XPATH,'//a[@href="/login"]')))
+login.click()
+time.sleep(2)
+username = WebDriverWait(driver,10).until(EC.presence_of_element_located((By.XPATH,'//input')))
+time.sleep(1)
+username.send_keys(os.environ.get("TWEET_USERNAME"))
+next_button = driver.find_element(By.XPATH,'//div[@role="button"][2]')
+next_button.click()
+time.sleep(1)
+password = WebDriverWait(driver,10).until(EC.presence_of_element_located((By.XPATH,'//input[@type="password"]')))
+time.sleep(1)
+password.send_keys(os.environ.get("TWEET_PASSWORD"))
+login_button = driver.find_element(By.XPATH,'//div[@role="button"][@data-testid="LoginForm_Login_Button"]')
+login_button.click()
+time.sleep(3)
+pythonweb = "https://twitter.com/WeRide_ai"
+driver.get(pythonweb)
+time.sleep(5)
+user_date = []
+text_data = []
+tweet_ids = set()
+
+def gettweet(element):
+    try:
+        user =  element.find_element(By.XPATH,'.//span[contains(text(),"@")]').text
+        text = element.find_element(By.XPATH,'.//div[@lang]').text
+        tweet_data = [user,text]
+    except:
+        tweet_data = ['user','text']
+    return tweet_data
+last_height = driver.execute_script("return document.body.scrollHeight")
+scrolling = True
+while scrolling:
+    tweets = WebDriverWait(driver,25).until(EC.presence_of_all_elements_located((By.XPATH,'//article[@role="article"]')))
+    time.sleep(5)
+    for tweet in tweets[-15:]:
+        tweet_list = gettweet(tweet)
+        tweet_id = ''.join(tweet_list)
+        if tweet_id not in tweet_ids:
+            tweet_ids.add(tweet_id)
+            user_date.append(tweet_list[0])
+            text_data.append(" ".join(tweet_list[1].split()))
+    while True:
+        driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
+        time.sleep(4)
+        new_height = driver.execute_script("return document.body.scrollHeight")
+        if len(user_date) > 7:
+            scrolling = False
+            break
+        elif last_height == new_height:
+            scrolling = False
+            break
+        else:
+            last_height = new_height
+            break
+
+df_tweets = pd.DataFrame({'user':user_date, 'text': text_data})
+df_tweets.to_csv('tweets_infinite.csv', index=False)
+# time.sleep(100)
+driver.quit()
